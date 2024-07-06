@@ -7,9 +7,11 @@ import {
   FormMessage,
 } from "../../components/ui/form";
 import { Input } from "../../components/ui/input";
+import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 
 const ImageSection = () => {
-  const { control } = useFormContext();
+  const { control, watch } = useFormContext();
+  const existingImageUrl = watch("imageURL");
   return (
     <div className=" space-y-2">
       <div>
@@ -19,7 +21,16 @@ const ImageSection = () => {
           search results.Adding the new Image will overwrite the existing one
         </FormDescription>
       </div>
-      <div className="flex flex-col gap-8 w-[50%]">
+      <div className="flex flex-col gap-8 md:w-[50%]">
+        {existingImageUrl && (
+          <AspectRatio ratio={16 / 9}>
+            <img
+              src={existingImageUrl}
+              className=" rounded-md h-full w-full object-cover"
+            />
+          </AspectRatio>
+        )}
+
         <FormField
           control={control}
           name="imageFile"
