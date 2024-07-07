@@ -5,7 +5,7 @@ dotenv.config();
 import mongoose from "mongoose";
 import myUserRoute from "./routes/MyUserRoute";
 import { v2 as cloudinary } from "cloudinary";
-import MyRestaurantRoute from "../src/routes/MyRestaurantRoute";
+import MyRestaurantRoute from "./routes/MyRestaurantRoute";
 mongoose
   .connect(process.env.MONGODB_CONNECTION_STRING as string)
   .then(() => console.log("Database to Connected"));
