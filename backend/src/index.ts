@@ -6,6 +6,8 @@ import mongoose from "mongoose";
 import myUserRoute from "./routes/MyUserRoute";
 import { v2 as cloudinary } from "cloudinary";
 import MyRestaurantRoute from "./routes/MyRestaurantRoute";
+import restaurantRoute from "./routes/RestaurantRoute";
+
 mongoose
   .connect(process.env.MONGODB_CONNECTION_STRING as string)
   .then(() => console.log("Database to Connected"));
@@ -22,6 +24,7 @@ app.use(cors());
 
 app.use("/api/my/user", myUserRoute);
 app.use("/api/my/restaurant", MyRestaurantRoute);
+app.use("/api/restaurant", restaurantRoute);
 
 app.get("/health", async (req: Request, res: Response) => {
   return res.json({
