@@ -3,7 +3,7 @@ import Restaurant from "../models/restaurant";
 
 const searchRestaurants = async (req: Request, res: Response) => {
   try {
-    // city?searchQuery=query
+    // /search/city?searchQuery=query
     const city = req.params.city;
     const searchQuery = req.query.searchQuery as string;
     const selectedCuisines = req.query.selectedCuisines as string;
