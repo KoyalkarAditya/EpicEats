@@ -14,10 +14,10 @@ export type Restaurant = {
   city: string;
   country: string;
   deliveryPrice: string;
-  estimatedDeliveryPrice: string;
+  estimatedDeliveryTime: string;
   cuisines: string[];
   menuItems: MenuItem[];
-  imageUrl: string;
+  imageURL: string;
   lastUpdated: string;
 };
 type MenuItem = {
