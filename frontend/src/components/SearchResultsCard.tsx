@@ -15,11 +15,19 @@ const SearchResultsCard = ({ restaurant }: Props) => {
       className="grid lg:grid-cols-[2fr_3fr] group gap-10"
     >
       <AspectRatio ratio={16 / 6}>
-        <img
-          alt="restaurant-image"
-          src={restaurant.imageURL}
-          className="rounded-md w-full h-full object-cover"
-        />
+        {restaurant.imageURL ? (
+          <img
+            alt="restaurant-image"
+            src={restaurant.imageURL}
+            className="rounded-md w-full h-full object-cover"
+          />
+        ) : (
+          <img
+            alt="restaurant-image"
+            src="http://res.cloudinary.com/dae31fk75/image/upload/v1720336451/el4nrrbuneyzib0dpyfb.jpg"
+            className="rounded-md w-full h-full object-cover"
+          />
+        )}
       </AspectRatio>
       <div>
         <h3 className="text-2xl font-bold tracking-tight mb2 group-hover:underline">

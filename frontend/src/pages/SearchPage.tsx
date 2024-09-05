@@ -37,7 +37,7 @@ const SearchPage = () => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-5">
       <div id="cuisine-list">Cuisines</div>
-      <div id="main-content" className="flex flex-col ">
+      <div id="main-content" className="flex flex-col gap-5">
         <SearchBar
           searchQuery={searchState.searchQuery}
           placeHolder="Search by Cuisine or Restaurant"
