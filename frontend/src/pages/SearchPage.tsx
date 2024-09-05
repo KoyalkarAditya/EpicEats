@@ -6,11 +6,13 @@ import { useState } from "react";
 import SearchBar, { SearchForm } from "../components/SearchBar";
 import PaginationSelector from "../components/PaginationSelector";
 import CuisinesFilter from "../components/CuisinesFilter";
+import SortOptionDropdown from "../components/SortOptionDropdown";
 
 export type SearchState = {
   searchQuery: string;
   page: number;
   selectedCuisines: string[];
+  sortOption: string;
 };
 
 const SearchPage = () => {
@@ -19,6 +21,7 @@ const SearchPage = () => {
     searchQuery: "",
     page: 1,
     selectedCuisines: [],
+    sortOption: "EstimatedDeliveryTime",
   });
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
 
@@ -50,6 +53,9 @@ const SearchPage = () => {
       page,
     }));
   };
+  const setSortOption = (sortOption: string) => {
+    setSearchState((prevState) => ({ ...prevState, sortOption }));
+  };
   const resetSearch = () => {
     setSearchState((prevState) => ({
       ...prevState,
@@ -74,7 +80,13 @@ const SearchPage = () => {
           onReset={resetSearch}
           onSubmit={setSearchQuery}
         />
-        <SearchResultsInfo total={results.pagination.total} city={city} />
+        <div className="flex justify-between flex-col gap-3 lg:flex-row">
+          <SearchResultsInfo total={results.pagination.total} city={city} />
+          <SortOptionDropdown
+            onChange={setSortOption}
+            sortOption={searchState.sortOption}
+          />
+        </div>
         <div className="mt-10 flex flex-col gap-10">
           {results.data.map((restaurant, index) => (
             <SearchResultsCard key={index} restaurant={restaurant} />
