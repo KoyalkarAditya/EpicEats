@@ -20,7 +20,7 @@ export type Restaurant = {
   imageURL: string;
   lastUpdated: string;
 };
-type MenuItem = {
+export type MenuItem = {
   _id: string;
   name: string;
   price: string;

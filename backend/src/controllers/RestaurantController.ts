@@ -62,4 +62,16 @@ const searchRestaurants = async (req: Request, res: Response) => {
   }
 };
 
-export default { searchRestaurants };
+const getRestaurant = async (req: Request, res: Response) => {
+  const restaurantId = req.params.restaurantId;
+  try {
+    const restaurant = await Restaurant.findById(restaurantId);
+    if (!restaurant) {
+      res.status(404).json({ message: "something went wrong" });
+    }
+    return res.json(restaurant);
+  } catch (e) {
+    res.status(500).json({ message: "something went wrong" });
+  }
+};
+export default { searchRestaurants, getRestaurant };

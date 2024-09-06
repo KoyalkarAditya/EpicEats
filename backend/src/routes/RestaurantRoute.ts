@@ -13,5 +13,14 @@ router.get(
     .withMessage("City name is required"),
   RestaurantController.searchRestaurants
 );
+router.get(
+  "/:restaurantId",
+  param("restaurantId")
+    .isString()
+    .trim()
+    .notEmpty()
+    .withMessage("restaurantId is required"),
+  RestaurantController.getRestaurant
+);
 
 export default router;
