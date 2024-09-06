@@ -9,6 +9,8 @@ import OrderSummary from "../components/OrderSummary";
 import { MenuItem as MenuItemType } from "../types";
 import CheckoutButton from "../components/CheckoutButton";
 import { UserFormData } from "../forms/user-profile-form/UserProfileForm";
+import { useCreateCheckoutSession } from "../api/OrderApi";
+import { toast } from "sonner";
 
 export type CartItem = {
   _id: string;
@@ -24,6 +26,8 @@ const DetailPage = () => {
     return storedItems ? JSON.parse(storedItems) : [];
   });
   const { restaurant, isLoading } = useGetRestaurant(restaurantId);
+  const { createCheckoutSession, isLoading: isCheckoutLoading } =
+    useCreateCheckoutSession();
 
   const addToCart = (menuItem: MenuItemType) => {
     setCartItems((prevState) => {
@@ -67,9 +71,33 @@ const DetailPage = () => {
     setCartItems(updatedCartItems);
   };
 
-  const onCheckout = (userFormData: UserFormData) => {
-    console.log(userFormData);
+  const onCheckout = async (userFormData: UserFormData) => {
+    if (!restaurant) {
+      return;
+    }
+
+    const checkoutData = {
+      cartItems: cartItems.map((cartItem) => ({
+        menuItemId: cartItem._id,
+        name: cartItem.name,
+        quantity: cartItem.quantity.toString(),
+      })),
+      restaurantId: restaurant._id,
+      deliveryDetails: {
+        name: userFormData.name,
+        addressLine1: userFormData.addressLine1,
+        city: userFormData.city,
+        country: userFormData.country,
+        email: userFormData.email as string,
+      },
+    };
+    const data = await createCheckoutSession(checkoutData);
+
+    toast.message("data:" + JSON.stringify(data));
+    console.log("data is" + JSON.stringify(data));
+    window.location.href = data.stripeUrl;
   };
+
   if (isLoading || !restaurant) {
     return "Loading....";
   }
@@ -105,6 +133,7 @@ const DetailPage = () => {
             <CheckoutButton
               disabled={cartItems.length == 0}
               onCheckout={onCheckout}
+              isLoading={isCheckoutLoading}
             />
           </CardFooter>
         </div>
