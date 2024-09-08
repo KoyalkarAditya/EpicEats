@@ -41,7 +41,7 @@ router.get(
 );
 
 router.patch(
-  "/order:orderId/status",
+  "/order/:orderId/status",
   jwtCheck,
   jwtParse,
   MyRestaurantController.updateOrderStatus
