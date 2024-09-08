@@ -93,7 +93,7 @@ const getMyRestaurantOrders = async (req: Request, res: Response) => {
       return res.status(404).json({ message: "restaurant not found" });
     }
     const orders = await Order.find({ restaurant: currentUserRestaurant._id })
-      .populate("restaurants")
+      .populate("restaurant")
       .populate("user");
 
     res.json(orders);

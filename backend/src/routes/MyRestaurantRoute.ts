@@ -34,7 +34,7 @@ router.put(
 );
 
 router.get(
-  "/order",
+  "/orders",
   jwtCheck,
   jwtParse,
   MyRestaurantController.getMyRestaurantOrders
