@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import Restaurant from "../models/restaurant";
 import cloudinary from "cloudinary";
 import mongoose from "mongoose";
+import Order from "../models/order";
 const createMYRestaurant = async (req: Request, res: Response) => {
   try {
     const existingRestaurant = await Restaurant.findOne({
@@ -82,4 +83,31 @@ const uploadImage = async (file: Express.Multer.File) => {
   const uploadResponse = await cloudinary.v2.uploader.upload(dataURI);
   return uploadResponse.url;
 };
-export default { createMYRestaurant, getMyRestaurant, updateMyRestaurant };
+
+const getMyRestaurantOrders = async (req: Request, res: Response) => {
+  try {
+    const currentUserRestaurant = await Restaurant.findOne({
+      user: req.userId,
+    });
+    if (!currentUserRestaurant) {
+      return res.status(404).json({ message: "restaurant not found" });
+    }
+    const orders = await Order.find({ restaurant: currentUserRestaurant._id })
+      .populate("restaurants")
+      .populate("user");
+
+    res.json(orders);
+  } catch (e) {
+    console.log(e);
+    return res
+      .status(500)
+      .json({ message: "error while getting ur restaurant orders" });
+  }
+};
+
+export default {
+  createMYRestaurant,
+  getMyRestaurant,
+  updateMyRestaurant,
+  getMyRestaurantOrders,
+};
